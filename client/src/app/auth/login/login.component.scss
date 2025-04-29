@@ -1,0 +1,22 @@
+.login-card {
+    max-width: 450px;
+    margin: 2rem auto;
+    padding: 2rem;
+  
+    mat-card-title {
+      font-size: 1.5rem;
+      font-weight: 500;
+    }
+  
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+  
+      button[type="submit"] {
+        margin-top: 1rem;
+        padding: 0.8rem;
+        font-size: 1.1rem;
+      }
+    }
+  }

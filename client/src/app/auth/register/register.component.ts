@@ -1,48 +1,48 @@
-import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { AuthService } from '../../services/auth.service';
-import { Router } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
+import { CommonModule } from '@angular/common';
 
 @Component({
+  selector: 'app-register',
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.scss'],
   standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    MatCardModule,
+    MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatCardModule
-  ],
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss']
+    MatIconModule
+  ]
 })
 export class RegisterComponent {
-  private fb = inject(FormBuilder);
-  private authService = inject(AuthService);
-  private router = inject(Router);
+  registerForm: FormGroup;
+  hidePassword = true; // Propiedad para controlar la visibilidad de la contraseña
 
-  registerForm = this.fb.group({
-    nombre: ['', Validators.required],
-    apellido: ['', Validators.required],
-    email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(8)]],
-  });
+  constructor(private fb: FormBuilder) {
+    this.registerForm = this.fb.group({
+      nombre: ['', Validators.required],
+      apellido: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]]
+    });
+  }
 
   onSubmit() {
     if (this.registerForm.valid) {
-      const formData = this.registerForm.value;
-      this.authService.register({
-        correo: formData.email!,
-        contrasena: formData.password!,
-        nombre: formData.nombre!,
-        apellido: formData.apellido!
-      }).subscribe({
-        next: () => this.router.navigate(['/login']),
-        error: (err) => console.error('Error registro:', err)
-      });
+      console.log(this.registerForm.value);
+      // Aquí implementarías la lógica para enviar los datos del formulario
     }
+  }
+
+  togglePasswordVisibility() {
+    this.hidePassword = !this.hidePassword;
   }
 }

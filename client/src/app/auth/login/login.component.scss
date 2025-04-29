@@ -1,22 +1,167 @@
+// Variables
+$primary-color: #3f51b5;
+$primary-dark: #303f9f; // Color oscuro definido directamente en lugar de usar darken()
+$accent-color: #ff4081;
+$background-color: #f9f9f9;
+$text-color: #333;
+$card-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+
+// Estilos generales
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: $background-color;
+  background-image: linear-gradient(120deg, #e0e0e0 0%, #f5f5f5 100%);
+  padding: 20px;
+}
+
 .login-card {
-    max-width: 450px;
-    margin: 2rem auto;
-    padding: 2rem;
-  
+  width: 100%;
+  max-width: 450px;
+  border-radius: 12px;
+  box-shadow: $card-shadow;
+  overflow: hidden;
+  background-color: white;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+  }
+
+  mat-card-header {
+    background: linear-gradient(135deg, $primary-color, $primary-dark);
+    color: white;
+    padding: 24px;
+    border-radius: 12px 12px 0 0;
+
     mat-card-title {
-      font-size: 1.5rem;
+      font-size: 26px;
+      margin-bottom: 8px;
       font-weight: 500;
     }
-  
+
+    mat-card-subtitle {
+      color: rgba(255, 255, 255, 0.85);
+      font-size: 16px;
+      margin-bottom: 0;
+    }
+  }
+
+  mat-card-content {
+    padding: 32px 24px;
+
     form {
       display: flex;
       flex-direction: column;
-      gap: 1.5rem;
-  
+      gap: 20px;
+
+      mat-form-field {
+        width: 100%;
+        
+        // Personalización del input
+        ::ng-deep .mat-form-field-outline {
+          border-radius: 6px;
+        }
+        
+        // Color del label cuando está enfocado
+        ::ng-deep .mat-form-field-label {
+          color: rgba(0, 0, 0, 0.6);
+        }
+        
+        // Color del borde cuando está enfocado
+        ::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+          color: $primary-color;
+        }
+      }
+
+      // Botón de inicio de sesión
       button[type="submit"] {
-        margin-top: 1rem;
-        padding: 0.8rem;
-        font-size: 1.1rem;
+        margin-top: 16px;
+        padding: 10px 0;
+        font-size: 16px;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+        box-shadow: 0 3px 5px rgba(0, 0, 0, 0.15);
+
+        &:not([disabled]):hover {
+          background-color: $primary-dark;
+          box-shadow: 0 5px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        &[disabled] {
+          opacity: 0.6;
+        }
+      }
+
+      // Efecto hover para el botón de mostrar/ocultar contraseña
+      button[mat-icon-button] {
+        transition: background-color 0.2s ease;
+        
+        &:hover {
+          background-color: rgba(0, 0, 0, 0.04);
+        }
       }
     }
   }
+}
+
+// Sección de registro y recuperación de contraseña
+.additional-options {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: center;
+  
+  a {
+    color: $primary-color;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+    
+    &:hover {
+      color: $accent-color;
+      text-decoration: underline;
+    }
+  }
+}
+
+// Animación de fade-in para el formulario
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.login-card {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+// Ajustes responsive
+@media (max-width: 600px) {
+  .login-card {
+    width: 100%;
+    
+    mat-card-header {
+      padding: 18px;
+      
+      mat-card-title {
+        font-size: 22px;
+      }
+    }
+    
+    mat-card-content {
+      padding: 24px 18px;
+    }
+  }
+}

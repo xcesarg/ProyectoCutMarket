@@ -1,13 +1,38 @@
-<ng-container *ngIf="loading">Cargando productos…</ng-container>
-<ng-container *ngIf="error">{{ error }}</ng-container>
-
-<div class="grid" *ngIf="!loading && !error">
-  <mat-card *ngFor="let p of products" class="product-card">
-    <mat-card-title>{{ p.titulo }}</mat-card-title>
-    <mat-card-content>
-      <p>{{ p.descripcion }}</p>
-      <p><strong>Precio:</strong> ${{ p.precio }}</p>
-      <p><small>Publicado: {{ p.creado_en | date:'short' }}</small></p>
-    </mat-card-content>
-  </mat-card>
+<div class="home-container">
+  <section class="welcome-section">
+    <h1>Bienvenido a CutMarket</h1>
+    <p class="subtitle">Tu plataforma de compra y venta para la comunidad UDG</p>
+    
+    <div class="cta-buttons" *ngIf="!isLoggedIn()">
+      <button mat-raised-button color="primary" routerLink="/login">
+        <mat-icon>login</mat-icon> Iniciar Sesión
+      </button>
+      <button mat-raised-button color="accent" routerLink="/register">
+        <mat-icon>person_add</mat-icon> Registrarse
+      </button>
+    </div>
+    
+    <div class="cta-buttons" *ngIf="isLoggedIn()">
+      <button mat-raised-button color="primary" routerLink="/products">
+        <mat-icon>shopping_cart</mat-icon> Ver Productos
+      </button>
+    </div>
+  </section>
+  
+  <section class="featured-products">
+    <h2>Productos Destacados</h2>
+    <ng-container *ngIf="loading">Cargando productos...</ng-container>
+    <ng-container *ngIf="error">{{ error }}</ng-container>
+    
+    <div class="grid" *ngIf="!loading && !error">
+      <mat-card *ngFor="let p of products.slice(0, 4)" class="product-card">
+        <mat-card-title>{{ p.titulo }}</mat-card-title>
+        <mat-card-content>
+          <p>{{ p.descripcion }}</p>
+          <p><strong>Precio:</strong> ${{ p.precio }}</p>
+          <p><small>Publicado: {{ p.creado_en | date:'short' }}</small></p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </section>
 </div>

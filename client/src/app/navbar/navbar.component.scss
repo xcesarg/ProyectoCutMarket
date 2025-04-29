@@ -1,0 +1,36 @@
+/* src/app/shared/navbar/navbar.component.scss */
+.navbar {
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    background: linear-gradient(45deg, #3f51b5, #2196f3);
+  
+    .logo-link {
+      color: white;
+      text-decoration: none;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+  
+    .spacer {
+      flex: 1 1 auto;
+    }
+  
+    button[mat-button] {
+      color: white;
+      margin-left: 8px;
+      font-weight: 500;
+  
+      &:hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
+    }
+  }
+  
+  /* Oculta los botones en móvil si lo deseas */
+  @media (max-width: 768px) {
+    .navbar button[mat-button] {
+      display: none;
+    }
+  }
+  

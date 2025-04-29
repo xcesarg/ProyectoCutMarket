@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';    // ← añadido
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -15,6 +16,7 @@ import { AuthService } from '../../services/auth.service';
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    MatFormFieldModule,    // ← añadido
     MatInputModule,
     MatButtonModule,
     MatCardModule,
@@ -45,37 +47,15 @@ export class LoginComponent {
   onSubmit() {
     if (this.loginForm.valid) {
       const { email, password, rememberMe } = this.loginForm.value;
-      
-      this.authService.login({
-        correo: email!,
-        contrasena: password!
-      }).subscribe({
-        next: (res) => {
-          // Si el usuario marcó "Recordar mi cuenta"
-          if (rememberMe) {
-            localStorage.setItem('email', email!);
-          }
-          
-          localStorage.setItem('token', res.token);
-          
-          // Intentemos usar timeout para asegurar que el token esté guardado
-          setTimeout(() => {
-            this.router.navigate(['/products']).then(
-              success => {
-                if (!success) {
-                  console.error('Navegación fallida hacia /products');
-                  // Como fallback intentamos ir al dashboard o home
-                  this.router.navigate(['/']);
-                }
-              }
-            );
-          }, 100);
-        },
-        error: (err) => {
-          console.error('Error login:', err);
-          // Aquí podrías mostrar un snackbar o mensaje de error
-        }
-      });
+      this.authService.login({ correo: email!, contrasena: password! })
+        .subscribe({
+          next: (res) => {
+            if (rememberMe) localStorage.setItem('email', email!);
+            localStorage.setItem('token', res.token);
+            this.router.navigate(['/products']);           // ahora existe “/products”
+          },
+          error: (err) => console.error('Error login:', err)
+        });
     }
   }
 }

@@ -1,5 +1,7 @@
+// client/src/app/environments/environment.ts
+
 export const environment = {
-    production: false,
-    apiUrl: 'http://localhost:4200'  // aquí es donde tu backend va a correr
-  };
-  
+  production: false,
+  // URL de tu API backend Express/MySQL
+  apiUrl: 'http://localhost:3000'
+};

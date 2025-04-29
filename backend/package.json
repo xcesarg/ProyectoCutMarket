@@ -1,0 +1,6 @@
+{
+  "scripts": {
+    "start:api": "node src/index.js"
+  },
+  "type": "module"
+}

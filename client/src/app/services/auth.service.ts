@@ -14,16 +14,14 @@ export class AuthService {
     return this.udgRegex.test(email);
   }
 
+  // Sólo correo y contrasena
   register(userData: {
     correo: string;
     contrasena: string;
-    nombre: string;
-    apellido: string;
   }) {
     if (!this.isUdgEmail(userData.correo)) {
       throw new Error('El correo debe ser de formato alumno UDG');
     }
-    
     return this.http.post<{ message: string }>(`${this.API_URL}/register`, userData);
   }
 

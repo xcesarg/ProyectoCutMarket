@@ -45,6 +45,8 @@ export class LoginComponent {
   }
 
   onSubmit() {
+    console.log('LOGIN onSubmit() disparado. loginForm.valid =', this.loginForm.valid);
+
     if (this.loginForm.valid) {
       const { email, password, rememberMe } = this.loginForm.value;
       this.authService.login({ correo: email!, contrasena: password! })

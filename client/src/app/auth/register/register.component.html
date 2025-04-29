@@ -6,28 +6,10 @@
 
   <mat-card-content>
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-      <!-- Campo Nombre -->
-      <mat-form-field appearance="outline">
-        <mat-label>Nombre</mat-label>
-        <input matInput formControlName="nombre" placeholder="Ingresa tu nombre">
-        <mat-error *ngIf="registerForm.get('nombre')?.hasError('required')">
-          El nombre es obligatorio
-        </mat-error>
-      </mat-form-field>
-
-      <!-- Campo Apellido -->
-      <mat-form-field appearance="outline">
-        <mat-label>Apellido</mat-label>
-        <input matInput formControlName="apellido" placeholder="Ingresa tu apellido">
-        <mat-error *ngIf="registerForm.get('apellido')?.hasError('required')">
-          El apellido es obligatorio
-        </mat-error>
-      </mat-form-field>
-
       <!-- Campo Email -->
       <mat-form-field appearance="outline">
         <mat-label>Email</mat-label>
-        <input matInput formControlName="email" placeholder="ejemplo@correo.com" type="email">
+        <input matInput formControlName="email" type="email" placeholder="ejemplo@correo.com">
         <mat-icon matSuffix>email</mat-icon>
         <mat-error *ngIf="registerForm.get('email')?.hasError('required')">
           El email es obligatorio
@@ -40,11 +22,9 @@
       <!-- Campo Contraseña -->
       <mat-form-field appearance="outline">
         <mat-label>Contraseña</mat-label>
-        <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" 
-               placeholder="Mínimo 6 caracteres">
-        <button mat-icon-button matSuffix (click)="togglePasswordVisibility()" type="button" 
-                aria-label="Toggle password visibility">
-          <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+        <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" placeholder="Mínimo 6 caracteres">
+        <button mat-icon-button matSuffix (click)="togglePasswordVisibility()" type="button" aria-label="Toggle password visibility">
+          <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
         </button>
         <mat-error *ngIf="registerForm.get('password')?.hasError('required')">
           La contraseña es obligatoria
@@ -59,9 +39,8 @@
         Registrarse
       </button>
 
-      <!-- Enlace para iniciar sesión -->
       <div style="text-align: center; margin-top: 16px;">
-        ¿Ya tienes una cuenta? <a href="#" style="color: #3f51b5; text-decoration: none;">Iniciar sesión</a>
+        ¿Ya tienes una cuenta? <a routerLink="/login">Iniciar sesión</a>
       </div>
     </form>
   </mat-card-content>

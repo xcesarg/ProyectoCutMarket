@@ -1,4 +1,3 @@
-// backend/src/routes/auth.js
 import { Router } from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
@@ -9,7 +8,7 @@ const JWT_SECRET = 'tu_clave_secreta';      // guárdala en .env
 
 // Registro
 router.post('/register', async (req, res) => {
-  const { correo, contrasena, nombre, apellido } = req.body;
+  const { correo, contrasena } = req.body;
   try {
     // 1) Validar que no exista
     const [rows] = await pool.query(
@@ -20,7 +19,7 @@ router.post('/register', async (req, res) => {
     // 2) Hashear contraseña
     const hash = await bcrypt.hash(contrasena, 12);
 
-    // 3) Insertar
+    // 3) Insertar en tabla Usuarios (sólo correo y hash)
     await pool.query(
       `INSERT INTO Usuarios (correo, contrasena, rol_id, verificado)
        VALUES (?, ?, ?, ?)`,
@@ -33,11 +32,10 @@ router.post('/register', async (req, res) => {
   }
 });
 
-// Login
+// Login (sin cambios)
 router.post('/login', async (req, res) => {
   const { correo, contrasena } = req.body;
   try {
-    // 1) Buscar usuario
     const [rows] = await pool.query(
       'SELECT UsuarioID, contrasena, verificado FROM Usuarios WHERE correo = ?', [correo]
     );
@@ -45,11 +43,9 @@ router.post('/login', async (req, res) => {
     const user = rows[0];
     if (!user.verificado) return res.status(403).json({ message: 'Usuario no verificado' });
 
-    // 2) Comparar hash
     const match = await bcrypt.compare(contrasena, user.contrasena);
     if (!match) return res.status(401).json({ message: 'Credenciales inválidas' });
 
-    // 3) Generar JWT
     const token = jwt.sign({ sub: user.UsuarioID }, JWT_SECRET, { expiresIn: '4h' });
     res.json({ token });
   } catch (err) {

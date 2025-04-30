@@ -1,1 +1,14 @@
-<p>products-page works!</p>
+<div class="products-container">
+    <mat-card *ngFor="let product of products" class="product-card">
+      <div class="product-card-img">
+        <!-- Sanitizar el título para generar un nombre válido de archivo -->
+        <img src="assets/images/{{ sanitizeTitle(product.titulo) }}.jpg" alt="{{ product.titulo }}" />
+      </div>
+      <div class="product-card-content">
+        <h3>{{ product.titulo }}</h3>
+        <p>{{ product.descripcion }}</p>
+        <p><strong>Precio:</strong> ${{ product.precio }}</p>
+      </div>
+    </mat-card>
+  </div>
+  

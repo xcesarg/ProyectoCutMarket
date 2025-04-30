@@ -1,3 +1,4 @@
+//backend/src/routes/products.js
 import { Router } from 'express';
 import { pool } from '../db.js';
 

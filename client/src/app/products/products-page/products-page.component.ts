@@ -30,4 +30,9 @@ export class ProductsPageComponent implements OnInit {
       }
     });
   }
+
+  // Método para sanitizar el título y generar el nombre adecuado de la imagen
+  sanitizeTitle(title: string): string {
+    return title.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, '');
+  }
 }

@@ -6,5 +6,13 @@
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.14.1"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  },
+  "scripts": {
+    "start:api": "cd backend && npm run start:api",
+    "start:client": "cd client && ng serve",
+    "start": "concurrently \"npm run start:api\" \"npm run start:client\""
   }
 }

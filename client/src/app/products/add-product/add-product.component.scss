@@ -1,0 +1,29 @@
+/* add-product.component.scss */
+
+.add-product-card {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  
+    mat-card-header {
+      margin-bottom: 16px;
+    }
+  
+    mat-form-field {
+      width: 100%;
+      margin-bottom: 16px;
+    }
+  
+    .actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+  
+      button {
+        min-width: 120px;
+      }
+    }
+  }
+  

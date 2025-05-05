@@ -1,4 +1,4 @@
-// products.service.ts
+// client/src/app/services/products.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -9,9 +9,8 @@ export interface Product {
   descripcion: string;
   precio: number;
   estado: string;
-  creado_en: string; // Agregar la propiedad creado_en como tipo string
+  creado_en: string;
 }
-
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +20,22 @@ export class ProductsService {
 
   constructor(private http: HttpClient) {}
 
+  /**
+   * Obtiene la lista de productos disponibles.
+   */
   getProducts(): Observable<Product[]> {
     return this.http.get<Product[]>(this.apiUrl);
+  }
+
+  /**
+   * Crea un nuevo producto.
+   * @param payload Objeto con titulo, descripcion y precio.
+   */
+  addProduct(payload: {
+    titulo: string;
+    descripcion: string;
+    precio: number;
+  }): Observable<{ productoId: number }> {
+    return this.http.post<{ productoId: number }>(this.apiUrl, payload);
   }
 }

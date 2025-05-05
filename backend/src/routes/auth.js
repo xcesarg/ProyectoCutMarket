@@ -1,28 +1,26 @@
-
 // backend/src/routes/auth.js
 
 import { Router } from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { pool } from '../db.js';
+import { config } from 'dotenv';
+config();
 
 const router = Router();
-const JWT_SECRET = 'tu_clave_secreta';      // guárdala en .env
+const JWT_SECRET = process.env.JWT_SECRET;
 
 // Registro
 router.post('/register', async (req, res) => {
   const { correo, contrasena } = req.body;
   try {
-    // 1) Validar que no exista
     const [rows] = await pool.query(
       'SELECT UsuarioID FROM Usuarios WHERE correo = ?', [correo]
     );
     if (rows.length) return res.status(400).json({ message: 'Usuario ya existe' });
 
-    // 2) Hashear contraseña
     const hash = await bcrypt.hash(contrasena, 12);
 
-    // 3) Insertar en tabla Usuarios (sólo correo y hash)
     await pool.query(
       `INSERT INTO Usuarios (correo, contrasena, rol_id, verificado)
        VALUES (?, ?, ?, ?)`,
@@ -35,7 +33,7 @@ router.post('/register', async (req, res) => {
   }
 });
 
-// Login (sin cambios)
+// Login
 router.post('/login', async (req, res) => {
   const { correo, contrasena } = req.body;
   try {

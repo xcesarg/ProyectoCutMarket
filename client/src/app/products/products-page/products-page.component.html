@@ -1,14 +1,36 @@
-<div class="products-container">
-    <mat-card *ngFor="let product of products" class="product-card">
-      <div class="product-card-img">
-        <!-- sanitizarrr el título para generar un nombre válido de archivo -->
-        <img src="assets/images/{{ sanitizeTitle(product.titulo) }}.jpg" alt="{{ product.titulo }}" />
-      </div>
-      <div class="product-card-content">
-        <h3>{{ product.titulo }}</h3>
-        <p>{{ product.descripcion }}</p>
-        <p><strong>Precio:</strong> ${{ product.precio }}</p>
-      </div>
-    </mat-card>
-  </div>
-  
+<!-- products-page.component.html -->
+
+<!-- Mostrar estado de carga -->
+<div *ngIf="loading" class="status-message">Cargando productos…</div>
+
+<!-- Mostrar error si lo hay -->
+<div *ngIf="error" class="status-message error">{{ error }}</div>
+
+<!-- Contenedor de productos -->
+<div class="products-container" *ngIf="!loading && !error">
+  <mat-card *ngFor="let product of products" class="product-card">
+    <div class="product-card-img">
+      <img
+        src="assets/images/{{ sanitizeTitle(product.titulo) }}.jpg"
+        alt="{{ product.titulo }}"
+      />
+    </div>
+    <div class="product-card-content">
+      <h3>{{ product.titulo }}</h3>
+      <p>{{ product.descripcion }}</p>
+      <p><strong>Precio:</strong> ${{ product.precio }}</p>
+      <p><small>Publicado: {{ product.creado_en | date:'short' }}</small></p>
+    </div>
+  </mat-card>
+</div>
+
+<!-- Botón flotante para agregar producto -->
+<button
+  mat-fab
+  color="accent"
+  class="fab-add"
+  (click)="onAddProduct()"
+  aria-label="Agregar producto"
+>
+  <mat-icon>add</mat-icon>
+</button>

@@ -1,3 +1,5 @@
+// src/app/app.routes.ts
+
 import { Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
 
@@ -22,7 +24,17 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./products/products-page/products-page.component')
         .then(m => m.ProductsPageComponent),
-    canActivate: [AuthGuard]  // Protegemos esta ruta
+    canActivate: [AuthGuard]
   },
-  { path: '**', redirectTo: '' }
+  {
+    path: 'add-product',
+    loadComponent: () =>
+      import('./products/add-product/add-product.component')
+        .then(m => m.AddProductComponent),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: '**',
+    redirectTo: ''
+  }
 ];

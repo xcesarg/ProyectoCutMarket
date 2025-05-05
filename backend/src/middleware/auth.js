@@ -1,25 +1,44 @@
 // backend/src/middleware/auth.js
-import jwt from 'jsonwebtoken'; // Para verificar el token JWT
-import { config } from 'dotenv'; // Si usas variables de entorno para el JWT secret
-config(); // Para cargar el archivo .env
+import { config } from 'dotenv';
+import jwt from 'jsonwebtoken';
+import { Request, Response, NextFunction } from 'express';
+
+// Carga las variables de entorno del .env
+config();
+
+// Comprueba que la variable JWT_SECRET esté definida
+if (!process.env.JWT_SECRET) {
+  console.error('FATAL: La variable de entorno JWT_SECRET no está definida.');
+  process.exit(1);
+}
 
 const authMiddleware = (req, res, next) => {
-  // Obtén el token del encabezado Authorization
-  const token = req.headers['authorization']?.split(' ')[1]; // `Bearer <token>`
-
-  if (!token) {
-    return res.status(403).json({ message: 'Acceso denegado, se requiere token de autenticación' });
+  const authHeader = req.headers.authorization;
+  
+  // Verifica que venga la cabecera y que use el esquema Bearer
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res
+      .status(401)
+      .json({ message: 'Token no proporcionado o formato inválido (se requiere "Bearer <token>")' });
   }
 
-  // Verifica el token usando jwt.verify
-  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+  const token = authHeader.split(' ')[1]; // Extrae la parte del token
+
+  // Verifica y decodifica el token
+  jwt.verify(token, process.env.JWT_SECRET, (err, payload) => {
     if (err) {
-      return res.status(403).json({ message: 'Token inválido' });
+      console.error('Error verificando token JWT:', err);
+      return res.status(401).json({ message: 'Token inválido o expirado' });
     }
 
-    // Si el token es válido, coloca los datos del usuario en el request
-    req.user = decoded; // Aquí guardamos los datos decodificados del token
-    next(); // Continúa con la ejecución de la siguiente función (el controlador)
+    // Añade los datos decodificados al request
+    // Aquí asumimos que en el payload tienes la propiedad 'sub' con el userId
+    req.user = {
+      sub: payload.sub,
+      ...payload
+    };
+
+    next();
   });
 };
 

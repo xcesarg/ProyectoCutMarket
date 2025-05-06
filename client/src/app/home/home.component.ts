@@ -43,4 +43,19 @@ export class HomeComponent implements OnInit {
   isLoggedIn(): boolean {
     return !!localStorage.getItem('token');
   }
+  
+  /**
+   * Sanitiza el título del producto para usarlo como nombre de archivo de imagen
+   * Esta función debe ser idéntica a la que tienes en products-page.component.ts
+   */
+  sanitizeTitle(title: string): string {
+    // Elimina espacios y caracteres especiales, convierte a minúsculas
+    return title
+      .toLowerCase()
+      .replace(/\s+/g, '-')       // Reemplaza espacios con guiones
+      .replace(/[^\w\-]+/g, '')   // Elimina caracteres especiales
+      .replace(/\-\-+/g, '-')     // Reemplaza múltiples guiones con uno solo
+      .replace(/^-+/, '')         // Elimina guiones del inicio
+      .replace(/-+$/, '');        // Elimina guiones del final
+  }
 }

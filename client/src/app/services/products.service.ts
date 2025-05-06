@@ -10,6 +10,7 @@ export interface Product {
   precio: number;
   estado: string;
   creado_en: string;
+  imagen?: string; // Agregamos imagen como campo opcional
 }
 
 @Injectable({
@@ -29,12 +30,13 @@ export class ProductsService {
 
   /**
    * Crea un nuevo producto.
-   * @param payload Objeto con titulo, descripcion y precio.
+   * @param payload Objeto con titulo, descripcion, precio e imagen opcional.
    */
   addProduct(payload: {
     titulo: string;
     descripcion: string;
     precio: number;
+    imagen?: string;
   }): Observable<{ productoId: number }> {
     return this.http.post<{ productoId: number }>(this.apiUrl, payload);
   }

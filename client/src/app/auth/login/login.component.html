@@ -1,12 +1,18 @@
+<!-- Tarjeta contenedora del formulario de login -->
 <mat-card class="login-card">
+  
+  <!-- Encabezado con título y subtítulo -->
   <mat-card-header>
     <mat-card-title>Iniciar Sesión</mat-card-title>
     <mat-card-subtitle>Accede a tu cuenta CutMarket</mat-card-subtitle>
   </mat-card-header>
 
+  <!-- Contenido principal del card -->
   <mat-card-content>
+    <!-- Formulario reactivo con evento submit -->
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-      <!-- Campo Email -->
+      
+      <!-- Campo para correo electrónico -->
       <mat-form-field appearance="outline">
         <mat-label>Correo UDG</mat-label>
         <input 
@@ -15,7 +21,9 @@
           formControlName="email"
           placeholder="ejemplo.nombre1234@alumnos.udg.mx"
         >
+        <!-- Ícono decorativo -->
         <mat-icon matSuffix>email</mat-icon>
+        <!-- Mensajes de validación -->
         <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
           El correo es obligatorio
         </mat-error>
@@ -24,7 +32,7 @@
         </mat-error>
       </mat-form-field>
 
-      <!-- Campo Contraseña -->
+      <!-- Campo para contraseña con toggle de visibilidad -->
       <mat-form-field appearance="outline">
         <mat-label>Contraseña</mat-label>
         <input 
@@ -33,6 +41,7 @@
           formControlName="password"
           placeholder="Ingresa tu contraseña"
         >
+        <!-- Botón para mostrar/ocultar contraseña -->
         <button 
           mat-icon-button 
           matSuffix
@@ -44,15 +53,16 @@
             {{ hidePassword ? 'visibility_off' : 'visibility' }}
           </mat-icon>
         </button>
+        <!-- Mensaje de validación -->
         <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
           La contraseña es obligatoria
         </mat-error>
       </mat-form-field>
 
-      <!-- Opción para recordar usuario -->
+      <!-- Checkbox para recordar credenciales -->
       <mat-checkbox color="primary" formControlName="rememberMe">Recordar mi cuenta</mat-checkbox>
 
-      <!-- Botón de inicio de sesión -->
+      <!-- Botón principal de submit -->
       <button 
         mat-raised-button 
         color="primary" 
@@ -63,7 +73,7 @@
         Ingresar
       </button>
 
-      <!-- Enlaces adicionales -->
+      <!-- Enlaces de acciones secundarias -->
       <div class="additional-options">
         <a routerLink="/auth/forgot-password">¿Olvidaste tu contraseña?</a>
         <span>¿No tienes cuenta? <a routerLink="/auth/register">Regístrate aquí</a></span>
